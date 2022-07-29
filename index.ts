@@ -5,10 +5,10 @@ const rndMs = (min_sec: number, max_sec: number) => Math.floor(
     ) * 1000 // convert to milliseconds
 ) + 1
 
-// simulate an api call that takes between 1 and 10 seconds to return
+// simulate an api call that takes between 1 and 5 seconds to return
 const simulateApiCall = (id: number): Promise<{id: number, result: string}> =>
     new Promise((resolve) => setTimeout(
-        () => resolve({ id, result: id.toString() }), rndMs(1, 10)
+        () => resolve({ id, result: id.toString() }), rndMs(1, 5)
     ))
 
 // function to wait for enter key
@@ -57,4 +57,4 @@ const simulateApiCalls = async (apiCallCount: number): Promise<string[]> => {
     return results
 }
 
-simulateApiCalls(10)
+simulateApiCalls(100)
