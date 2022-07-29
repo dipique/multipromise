@@ -12,7 +12,10 @@ const simulateApiCall = (id: number): Promise<{id: number, result: string}> =>
     ))
 
 // function to wait for enter key
-const waitForInput = () => new Promise((resolve) => process.stdin.once('data', resolve))
+const waitForInput = () => new Promise((resolve) => process.stdin.once('data', v => {
+    resolve(v)
+    process.stdin.pause() // pause input so we don't get stuck waiting for input
+}))
 
 // simulate x api calls simultaneously but log every time one finishes
 // without blocking the rest of the calls
@@ -45,16 +48,13 @@ const simulateApiCalls = async (apiCallCount: number): Promise<string[]> => {
         console.log(`Finished (${apiCallsCompleted}/${apiCallCount})`)
     }
 
-    console.log('done; press enter to show results')
-
-    await waitForInput()
-    process.stdin.resume()
-
-    const results = apiResultStates.map(p => p.result)
-    console.log(results)
-    // process.exit() // just useful in node demo so the app actually closes
-
-    return results
+    return apiResultStates.map(p => p.result)
 }
 
-simulateApiCalls(100)
+simulateApiCalls(10)
+    .then(async results => {
+        console.log('done; press enter to show results')
+        await waitForInput()
+        return results
+    })
+    .then(results => console.log(results))
