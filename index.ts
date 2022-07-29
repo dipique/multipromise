@@ -1,3 +1,6 @@
+// demonstrates how to simultaneously trigger multiple async calls
+// and wait for them while triggering actions after each one finishes
+
 // get a random number of ms between min and max # of seconds
 const rndMs = (min_sec: number, max_sec: number) => Math.floor(
     (   // random number between min and max
